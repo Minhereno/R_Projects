@@ -1,0 +1,134 @@
+---
+title: "BIOL312_FinalProj"
+author: "Minh Tran"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document: default
+---
+### Source: Chase, M.A and Dummer, G.M. (1992), "The Role of Sports as a Social Determinant for Children," Research Quarterly for Exercise and Sport, 63, 418-424. 
+
+
+## Relationship between count data of goals in different grades
+
+
+### Load up packages and dataset
+```{r, message=FALSE, warning=FALSE}
+library('tidyverse')
+data <- read_csv('youth_social_preferences.csv')
+```
+
+### Inspect dataset
+```{r}
+glimpse(data) #checking out data types and observations
+summary(data) #checking to see if there are any NAs
+```
+
+### A. Statistical hypotheses
+
+`Alpha: 0.05`
+
+`H0: There is no significant relationship between the count of goals and grades. `
+
+`H1: There is a significant relationship between the count of goals and grades. ` 
+
+### B. Cross tabulation of count of goals in different grades
+```{r}
+xt1 <- xtabs(~Grade + Goals, data = data) #cross tab
+xt1 
+prop.table(xt1, margin = 1) #proportion table
+```
+
+### C. Expected chi-square values and running chi-square
+```{r}
+chisq.test(xt1)$expected #expected chi square values
+chisq.test(xt1, simulate.p.value = TRUE) #chi square test with simulated p-value
+```
+
+### D. Interpretation
+
+`The p-value is higher than the alpha of 0.05. Not significant -> Fail to reject the null hypothesis and conclude that there is no significant relationship between the count of goals and grades.`
+
+### E. Barplot visuals
+```{r}
+#getting counts and plotting a barplot of counts of each Grade and Goal combination
+data %>% 
+  count(Grade, Goals) %>% 
+  ggplot(aes(x = Grade, y = n, fill = Goals)) +
+  geom_bar(position = "dodge",stat = "identity") +
+  theme_bw() +
+  labs(title = 'Count data of Goals vs. Grades')+
+  xlab('Grades') +
+  ylab('Count')
+```
+
+```{r}
+#getting counts and plotting a stacked barplot of percentages of each Grade and Goal combination
+data %>% 
+  count(Grade, Goals) %>% 
+  ggplot(aes(x = Grade, y = n, fill = Goals)) +
+  geom_bar(position = "fill",stat = "identity") +
+  theme_bw() +
+  xlab('Grades') +
+  ylab('Count (%)') +
+  labs(title = 'Count percentage of Goals vs. Grades') +
+  scale_y_continuous(labels = scales::percent_format()) +
+  coord_flip()
+```
+
+---
+
+## Relationship between count data of goals in different communities
+
+### A. Statistical hypotheses
+
+`Alpha: 0.05`
+
+`H0: There is no significant relationship between the count of goals and communities. ` 
+
+`H1: There is a significant relationship between the goals and communities.` 
+
+### B. Cross tabulation of count of goals in different communities
+```{r}
+xt2 <- xtabs(~Urban.Rural + Goals, data = data) #cross tab
+xt2
+prop.table(xt2, margin = 1) #table of proportions
+```
+
+### C. Expected chi-square values and running chi-square
+```{r}
+chisq.test(xt2)$expected #expected chi-square values
+chisq.test(xt2, simulate.p.value = TRUE) #chi-square test with simulated p-value
+```
+
+### D. Interpretation
+
+`The p-value is lower than the alpha of 0.05. Significant -> Reject the null hypothesis and conclude that there is a significant relationship between the count of goals and communities. `
+
+### E. Barplot visuals
+
+```{r}
+#getting counts and plotting a barplot of counts of each Community and Goal combination
+data %>% 
+  count(Urban.Rural, Goals) %>% 
+  ggplot(aes(x = Urban.Rural, y = n, fill = Goals)) +
+  geom_bar(position = "dodge",stat = "identity") +
+  theme_bw() +
+  labs(title = 'Count data of Goals vs. Community') +
+  xlab('Community') +
+  ylab('Count') 
+```
+
+```{r}
+#getting counts and plotting a stacked barplot of percentages of each Community and Goal combination
+data %>% 
+  count(Urban.Rural, Goals) %>% 
+  ggplot(aes(x = Urban.Rural, y = n, fill = Goals)) +
+  geom_bar(position = "fill",stat = "identity") +
+  theme_bw() +
+  xlab('Community') +
+  ylab('Count (%)') + 
+  labs(title = 'Count percentage of Goals vs. Community') +
+  scale_y_continuous(labels = scales::percent_format()) +
+  coord_flip() 
+```
