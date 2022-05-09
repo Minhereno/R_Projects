@@ -1,0 +1,146 @@
+---
+title: "Midterm"
+author: "Minh Tran"
+date: "3/4/2021"
+output: pdf_document
+---
+
+Today you will demonstrate your R skills and stats knowledge using new datasets.
+
+> Note: If you are unsuccessful at any step, you may use a dataset from the previous question to move on.
+
+# 1.
+
+Read in the `Progestin.csv` file that contains data about the pregnancy hormone, progesterone, in some female wolves. Also read in the `Est_cort.csv` file that has some data about the reproductive hormone, estrogen, and the stress hormone, cortisol, in the same wolves. Finally, run some code to briefly familiarize yourself with the datasets.
+
+```{r, message = FALSE}
+library('tidyverse')
+pro <- read_csv('Progestin.csv')
+est <- read_csv('Est_cort.csv')
+```
+
+```{r}
+glimpse(pro)
+glimpse(est)
+```
+
+# 2. 
+
+Merge the datasets together so that you have the fewest NAs. Save the result as `horm`. Show the horm dataset.
+
+```{r}
+#?inner_join
+horm <- inner_join(x = pro, y = est, by = c('Animal', 'Date', 'Day', 'Status'))
+glimpse(horm)
+```
+
+# 3. 
+
+Use the `horm` dataset to show the top 3 animals with the most rows. 
+
+```{r}
+horm %>% 
+  count(Animal) %>% 
+  arrange(-n) %>% 
+  head(3)
+```
+
+# 4. 
+
+Create a new variable on the `horm` dataset that is the log10 of Progestin. Make sure to save the new variable onto the `horm` dataset
+
+```{r}
+horm <- horm %>% 
+  mutate(log10_progestin = log10(Progestin))
+```
+
+
+# 5.
+
+Plot a qq plot of the Progestin column and a second qq plot of the log10 Progestin column.
+
+```{r}
+horm %>% 
+  ggplot(aes(sample = Progestin)) + 
+  geom_qq() +
+  geom_qq_line() 
+```
+
+```{r}
+horm %>% 
+  ggplot(aes(sample = log10_progestin)) + 
+  geom_qq() +
+  geom_qq_line() 
+```
+
+# 6. 
+
+What did taking the log10 do to the shape of the Progestin distribution? Why is this important?
+
+`The log10 made the shape of the progestin distribution to be more linear. This is imporant because we can't really tell how much the progestin levels are increasing by since large numbers are hard to express. As a result, using log will help us see how the progestin levels are increasing and this will also help us determine the normality of the data. `
+
+# 7.
+
+Follow all steps of hypothesis testing to assess whether females who successfully gave birth to pups (`PregSuccessful`) have different mean log10progestin levels as compared with females who were Pregnant but lost the pregnancy (`LostPregnancy`). Make sure to interpret the results in a way that anyone would understand what you found.
+
+
+```{r}
+#showing unique variables of Status
+horm %>% 
+  count(Status)
+```
+
+```{r}
+#filtering
+horm_filtered <- horm %>% 
+  filter(Status == 'PregSuccessful' | Status == 'LostPregnancy')
+```
+
+```{r}
+#density plot
+horm_filtered %>% 
+ggplot(aes(log10_progestin, color = Status, fill = Status)) + geom_density(alpha = 0.5)
+```
+
+```{r}
+#qqplot
+horm_filtered %>% 
+  ggplot(aes(sample = log10_progestin)) + 
+  geom_qq(na.rm = TRUE) +
+  geom_qq_line(na.rm = TRUE) +
+  facet_wrap(~Status)
+```
+
+- Random Sampling - met
+- Independent Samples - met
+- Equal variance - unequal variance -> use Welch's t-test (unpooled variance) 
+- Normality - if not met, use U-tests
+
+
+```{r}
+# Using unpooled variance t-test since unequal variances
+t.test(log10_progestin ~ Status, data = horm_filtered, var.equal = FALSE)
+```
+
+```{r}
+horm_filtered %>% 
+  filter(!is.na(Status)) %>% 
+  group_by(Status) %>% 
+  summarize(mean_log10_progestin = mean(log10_progestin, na.rm = TRUE), 
+            sd_log10_progestin = sd(log10_progestin, na.rm = TRUE))
+```
+
+`The p-value is lower than the alpha of 0.05 by which we we reject the null hypothesis by which there are no differences between the two groups since it is significant. We accept the alternative hypothesis by which there are differences between the mean log10 of progestin levels in females who had a successful pregnancy compared to a lost pregnancy. This is also indicated by the difference in the means between the two groups.`
+
+# 8. 
+
+Create a (basic) plot that you could use in a scientific journal article to show your findings.
+
+```{r}
+#boxplot
+horm_filtered %>% 
+  ggplot(aes(y = log10_progestin)) + 
+  geom_boxplot(na.rm = TRUE) +
+  facet_wrap(~Status)
+```
+
