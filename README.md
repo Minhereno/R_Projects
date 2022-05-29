@@ -12,7 +12,7 @@
 
 ## Description of files
 
-| File      | Description |
+| File Name      | Description |
 | ----------- | ----------- |
 | BIOL312_FinalProj | Chi-square test analysis on goals and grades data of students |
 | CDS101_Assignment4 |Analysis of health and income outcomes of different areas|
