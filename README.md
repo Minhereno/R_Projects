@@ -14,12 +14,12 @@
 
 | File Name      | Description |
 | ----------- | ----------- |
-| BIOL312_FinalProj | Chi-square test analysis on goals and grades data of students |
-| CDS101_Assignment4 |Analysis of health and income outcomes of different areas|
-|CDS101_Assignment5|Analysis of blood pressure (linear model)|
-|CDS_Assignment6|Hypothesis testing|
-|CDS_Assignment7|Simulated vs Actual SARS-CoV-2 cases comparison|
-|CDS_Assignment8|Analysis of birth times|
-|CDS_Assignment9|Linear model and prediction of car prices|
-|cds101_final_project|Hypothesis testing between Bachelor and Other degrees|
-|Midterm|Analysis of hormones|
+| BIOL312_FinalProj.Rmd | Chi-square test analysis on goals and grades data of students |
+| CDS101_Assignment4.pdf|Analysis of health and income outcomes of different areas|
+|CDS101_Assignment5.pdf|Analysis of blood pressure (linear model)|
+|CDS101_Assignment6.pdf|Hypothesis testing|
+|CDS101_Assignment7.pdf|Simulated vs Actual SARS-CoV-2 cases comparison|
+|CDS101_Assignment8.pdf|Analysis of birth times|
+|CDS101_Assignment9.pdf|Linear model and prediction of car prices|
+|CDS101_final_project.pdf|Hypothesis testing between Bachelor and Other degrees|
+|Midterm.Rmd|Analysis of hormones|
