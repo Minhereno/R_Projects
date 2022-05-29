@@ -1,9 +1,4 @@
-# Minh Tran - R Projects
----
-
-## About me
-
-Hi, I'm Minh! I'm a recent biology graduate with a concentration in bioinformatics looking to secure a position as a data analyst to utilize my knowledge and skills in data analysis, manipulation, and visualization (Python, R, SQL, and Tableau).   
+# Minh Tran - R Projects  
 
 ---
 
@@ -14,6 +9,7 @@ Hi, I'm Minh! I'm a recent biology graduate with a concentration in bioinformati
 [Resume](https://1drv.ms/w/s!AuhXbP8CWYaOgnFcuYg3f0B0bBnU?e=N0lTds)
 
 ---
+
 ## Description of files
 
 | File      | Description |
