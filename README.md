@@ -22,4 +22,4 @@
 |CDS101_Assignment8.pdf|Analysis of birth times|
 |CDS101_Assignment9.pdf|Linear model and prediction of car prices|
 |CDS101_final_project.pdf|Hypothesis testing between Bachelor and Other degrees|
-|Midterm.Rmd|Analysis of hormones|
+|Midterm.Rmd|Analysis of hormone levels|
