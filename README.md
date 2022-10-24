@@ -1,13 +1,6 @@
 # Minh Tran - R Projects  
 
 ---
-
-## References
-
-- [LinkedIn](https://www.linkedin.com/in/minh-tran-a5206616a/)
-
----
-
 ## Description of files
 
 | File Name      | Description |
